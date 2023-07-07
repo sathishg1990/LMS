@@ -1,0 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Comme&family=Kalam&family=Spectral+SC&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
