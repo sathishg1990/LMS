@@ -10,16 +10,16 @@ export default {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.vue",
-        // "./app/Forms/*.php",
-        // "./app/Tables/*.php",
+        "./app/Forms/*.php",
+        "./app/Tables/*.php",
     ],
 
     theme: {
         extend: {
             fontFamily: {
-                sans1: ["Comme"],
-                sans11: ["Kalam"],
-                sans: ["Spectral SC"]
+                sans: ["Comme"],
+                sans2: ["Kalam"],
+                san3: ["Spectral SC"]
             },
         },
     },
