@@ -24,8 +24,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'is_admin' => fake()->boolean(),
-            'is_teacher' => fake()->boolean(),
-            'is_student' => fake()->boolean(),
+            'role' => fake()->randomElement(['TEACHER', 'STUDENT', 'USER']),
             'remember_token' => Str::random(10),
         ];
     }
@@ -33,13 +32,10 @@ class UserFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (User $user){
-            if($user->is_student) {
+            if($user->role != 'USER') {
                 $user->is_admin = false;
-                $user->is_teacher = false;
-            }else if ($user->is_admin) {
-                $user->is_student = false;
-            }else if ($user->is_teacher) {
-                $user->is_student = false;
+            }else{
+                $user->is_admin = true;
             }
             $user->save();
         });

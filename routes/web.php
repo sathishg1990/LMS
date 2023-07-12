@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleRegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,20 +34,27 @@ Route::middleware('splade')->group(function () {
         return view('welcome');
     });
 
-    Route::middleware('auth')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->middleware(['verified'])->name('dashboard');
+    Route::middleware(['auth'])->group(function () {
 
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::group(['middleware' => ['role_registered']], function () {
+            Route::get('/dashboard', function () {
+                return view('dashboard');
+            })->middleware(['verified'])->name('dashboard');
+
+            Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+            Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+            Route::get('/admin/users', [UserController::class, 'index'])->name('user.index');
+
+        });
+
+        Route::get('role-registration', [RoleRegistrationController::class, 'create'])->name('role-registration.create');
+        Route::post('role-registration', [RoleRegistrationController::class, 'store'])->name('role-registration.store');
+
     });
 
-    Route::middleware('auth')->group(function () {
-       Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-       Route::get('/admin/users', [UserController::class, 'index'])->name('user.index');
-    });
 
-    require __DIR__.'/auth.php';
+    require __DIR__ . '/auth.php';
 });
