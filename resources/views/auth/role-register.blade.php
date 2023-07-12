@@ -1,7 +1,7 @@
 <x-guest-layout>
     <x-auth-card>
         <x-splade-form action="{{ route('role-registration.store') }}" class="space-y-4">
-            <x-splade-select @change="shout" name="role" :label="__('Select your Role')" required>
+            <x-splade-select name="role" :label="__('Select your Role')" >
                 <option value="STUDENT">Student</option>
                 <option value="TEACHER">Teacher</option>
             </x-splade-select>
@@ -16,10 +16,5 @@
                 <x-splade-submit class="ml-4" :label="__('Finish Register')" />
             </div>
         </x-splade-form>
-        <x-splade-script>
-            function shout() {
-            alert('Checkbox was checked');
-            }
-        </x-splade-script>
     </x-auth-card>
 </x-guest-layout>

@@ -18,8 +18,8 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Comme"],
-                sans2: ["Kalam"],
-                san3: ["Spectral SC"]
+                sans: ["Kalam"],
+                sans: ["Spectral SC"]
             },
         },
     },
