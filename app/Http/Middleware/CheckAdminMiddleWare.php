@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckRoleRegisteredMiddleware
+class CheckAdminMiddleWare
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class CheckRoleRegisteredMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (is_null(auth()->user()->role) or (auth()->user()->role == 'USER' && !auth()->user()->is_admin)) {
-            return redirect()->route('role-registration.create');
+        if (!auth()->user()->is_admin) {
+            abort(403);
         }
         return $next($request);
     }

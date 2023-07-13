@@ -45,10 +45,18 @@ Route::middleware('splade')->group(function () {
             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
             Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-            Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-            Route::get('/admin/users', [UserController::class, 'index'])->name('user.index');
+            //Route::get('/users', [UserController::class, 'index'])->name('users.index');
+            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         });
+
+        Route::group(['middleware' => ['check_admin']], function () {
+            Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+            Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
+            Route::get('/admin/students', [UserController::class, 'showstudentslist'])->name('admin.students');
+        });
+
 
         Route::get('role-registration', [RoleRegistrationController::class, 'create'])->name('role-registration.create');
         Route::post('role-registration', [RoleRegistrationController::class, 'store'])->name('role-registration.store');

@@ -12,6 +12,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Query\Builder;
 use ProtoneMedia\Splade\AbstractTable;
 use Spatie\QueryBuilder\AllowedFilter;
+use Maatwebsite\Excel\Excel;
+
 
 class Users extends AbstractTable
 {
@@ -52,12 +54,10 @@ class Users extends AbstractTable
             });
         });
 
-        $users = User::select("*")->selectRaw("CONCAT_WS(', ',IF(is_admin, 'Admin', NULL),IF(is_teacher, 'Teacher', NULL),IF(is_student, 'Student', NULL)) AS user_type");
-
-        return QueryBuilder::for($users)
+        return QueryBuilder::for(User::class)
             ->defaultSort('id')
-            ->allowedSorts(['id','name', 'email', 'user_type'])
-            ->allowedFilters(['id', 'name', 'email', $globalSearch]);
+            ->allowedSorts(['id', 'name', 'email', 'role', 'is_admin'])
+            ->allowedFilters(['id', 'name', 'email', 'role', 'is_admin', $globalSearch]);
     }
 
     /**
@@ -73,8 +73,10 @@ class Users extends AbstractTable
             ->column('id', sortable: true)
             ->column('name', sortable: true)
             ->column('email', sortable: true)
-            ->column('user_type',  sortable: true)
-            ->paginate(15);
+            ->column(key: 'role', as: fn($role) => ucfirst(strtolower($role)), sortable: true)
+            ->column('is_admin', sortable: true, alignment: "center")
+            ->paginate(15)
+            ->export(label: 'CSV export', filename: 'User.csv', type: Excel::CSV);
 
         // ->searchInput()
         // ->selectFilter()

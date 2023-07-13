@@ -17,9 +17,12 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Comme"],
-                sans: ["Kalam"],
-                sans: ["Spectral SC"]
+                sans1: ["Comme"],
+                sans2: ["Kalam"],
+                sans3: ["Spectral SC"],
+                sans4: ["Edu TAS Beginner"],
+                sans5: ["Fira Sans"],
+                sans: ["Inter"],
             },
         },
     },
