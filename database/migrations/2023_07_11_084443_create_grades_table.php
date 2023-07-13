@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->char('name', 5);
+            $table->char('name', 6);
             $table->timestamps();
         });
     }

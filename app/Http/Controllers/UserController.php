@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Tables\Users;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 use ProtoneMedia\Splade\SpladeTable;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class UserController extends Controller
 {
@@ -69,11 +71,38 @@ class UserController extends Controller
     }
 
     public function showstudentslist()
-    {
+    {   
+
+        $user = User::find(21);
+        $grades = $user->grades;
+        dd($grades);
+
+
+
+        $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
+            $query->where(function ($query) use ($value) {
+                Collection::wrap($value)->each(function ($value) use ($query) {
+                    $query
+                        ->orWhere('name', 'LIKE', "%{$value}%")
+                        ->orWhere('email', 'LIKE', "%{$value}%");
+                });
+            });
+        });
+
+        $studentsList = User::where('role', 'STUDENT');
+
+    
+        $students = QueryBuilder::for($studentsList)
+            ->defaultSort('name')
+            ->allowedSorts(['name', 'email'])
+            ->allowedFilters(['name', 'email', $globalSearch]);
+ 
+
         return view('admin.users.students', [
-            'students' => SpladeTable::for(User::class)
+            'students' => SpladeTable::for($students)
                 ->column('name')
                 ->column('email')
+                ->column(key:'user.grades.name', label: 'Grade')
                 ->paginate(15),
         ]);
     }
