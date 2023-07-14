@@ -1,5 +1,13 @@
 <x-admin-layout>
-    <h1 class="my-2">User Table</h1>
+
+    <div class="flex justify-between">
+        <h1 class="text-2xl font-semibold p-4">Users Index</h1>
+        <div class="p-4">
+            <Link href=""
+                class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded text-white">New User</Link>
+        </div>
+    </div>
+
     <x-splade-table :for="$users">
 
         @cell('is_admin', $user)

@@ -74,9 +74,8 @@ class UserController extends Controller
     public function showstudentslist()
     {
 
-
-        $studentsList = User::where('role', 'STUDENT')->get();
-        dd($studentsList);
+        $studentsList = User::where('role', 'STUDENT');
+        
 
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
@@ -99,8 +98,13 @@ class UserController extends Controller
             'students' => SpladeTable::for($students)
                 ->column('name')
                 ->column('email')
-                ->column(key: 'user.grades.name', label: 'Grade')
+                ->column(key: 'grades.name', label: 'Grade')
                 ->paginate(15),
         ]);
+    }
+
+    public function showTeacherlist()
+    {
+
     }
 }

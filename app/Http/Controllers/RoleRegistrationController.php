@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Grade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -10,7 +11,8 @@ class RoleRegistrationController extends Controller
 {
     public function create()
     {
-        return view('auth.role-register');
+        $grades = Grade::all(['id','name']);
+        return view('auth.role-register', compact('grades'));
     }
 
     public function store(Request $request)
@@ -22,9 +24,7 @@ class RoleRegistrationController extends Controller
 
         $user = User::find(auth()->user()->id);
 
-        $data = $user->update([
-            'role' => $request->role
-        ]);
+        $data = $user->grades()->attach($request->grade);
 
 
         return redirect()->route('dashboard');

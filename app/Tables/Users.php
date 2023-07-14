@@ -69,7 +69,7 @@ class Users extends AbstractTable
     public function configure(SpladeTable $table)
     {
         $table
-            ->withGlobalSearch(columns: ['id'])
+            ->withGlobalSearch('Search through the data...', ['id', 'name'])
             ->column('id', sortable: true)
             ->column('name', sortable: true)
             ->column('email', sortable: true)
