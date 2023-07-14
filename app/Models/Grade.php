@@ -14,6 +14,6 @@ class Grade extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'grade_user', 'grade_id', 'user_id');
     }
 }

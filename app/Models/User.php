@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public function grades()
     {
-        return $this->belongsToMany(Grade::class);
+        return $this->belongsToMany(Grade::class, 'grade_user', 'user_id', 'grade_id');
 
     }
 }

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Tables\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -71,13 +72,11 @@ class UserController extends Controller
     }
 
     public function showstudentslist()
-    {   
-
-        $user = User::find(21);
-        $grades = $user->grades;
-        dd($grades);
+    {
 
 
+        $studentsList = User::where('role', 'STUDENT')->get();
+        dd($studentsList);
 
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
@@ -89,20 +88,18 @@ class UserController extends Controller
             });
         });
 
-        $studentsList = User::where('role', 'STUDENT');
 
-    
         $students = QueryBuilder::for($studentsList)
             ->defaultSort('name')
             ->allowedSorts(['name', 'email'])
             ->allowedFilters(['name', 'email', $globalSearch]);
- 
+
 
         return view('admin.users.students', [
             'students' => SpladeTable::for($students)
                 ->column('name')
                 ->column('email')
-                ->column(key:'user.grades.name', label: 'Grade')
+                ->column(key: 'user.grades.name', label: 'Grade')
                 ->paginate(15),
         ]);
     }
