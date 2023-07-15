@@ -1,3 +1,3 @@
 <x-admin-layout>
-        <h1>Welcome to India</h1>
+    dfd
 </x-admin-layout>

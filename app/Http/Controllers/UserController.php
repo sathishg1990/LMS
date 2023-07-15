@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -75,7 +75,7 @@ class UserController extends Controller
     {
 
         $studentsList = User::where('role', 'STUDENT');
-        
+
 
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {

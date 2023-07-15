@@ -54,6 +54,7 @@ Route::middleware('splade')->group(function () {
         Route::group(['middleware' => ['check_admin']], function () {
             Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
             Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
+            Route::get('/admin/create', [UserController::class, 'create'])->name('admin.users.create');
             Route::get('/admin/students', [UserController::class, 'showstudentslist'])->name('admin.students');
             Route::get('/admin/teachers', [UserController::class, 'showTeacherlist'])->name('admin.teachers');
         });
