@@ -3,7 +3,7 @@
     <div class="flex justify-between">
         <h1 class="text-2xl font-semibold p-4">Users Index</h1>
         <div class="p-4">
-            <Link href="route('admin.users.create')"
+            <Link href="{{route('admin.users.create')}}"
                 class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded text-white">New User</Link>
         </div>
     </div>

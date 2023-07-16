@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Tables\Users;
 use Illuminate\Http\Request;
+use App\Forms\CreateUserForm;
+use App\Http\Requests\CreateUserFormRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use ProtoneMedia\Splade\SpladeTable;
@@ -28,15 +30,20 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return view('admin.users.create', 
+                ['form' => CreateUserForm::class]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateUserForm $form, CreateUserFormRequest $request)
     {
-        //
+        
+        $createUser = $form->validate($request);
+        
+
+        
     }
 
     /**
@@ -50,9 +57,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
+        $userId = $request->id;
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
