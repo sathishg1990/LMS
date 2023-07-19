@@ -75,7 +75,7 @@ class Users extends AbstractTable
             ->column('email', sortable: true)
             ->column(key: 'role', as: fn($role) => ucfirst(strtolower($role)), sortable: true)
             ->column('is_admin', sortable: true, alignment: "center")
-            ->rowModal(fn (User $user) => route('admin.users.edit', ['id' => $user->id]))
+            ->column('action')
             ->paginate(15)
             ->export(label: 'CSV export', filename: 'User.csv', type: Excel::CSV);
 

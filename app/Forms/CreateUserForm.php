@@ -26,9 +26,7 @@ class CreateUserForm extends AbstractForm
 
     public function fields(): array
     {
-
         $option = User::select('role')->groupBy('role')->get()->toArray();
-        
 
         return [
             Text::make('name')
@@ -43,7 +41,7 @@ class CreateUserForm extends AbstractForm
                 ->optionLabel('role')
                 ->optionValue('role'),
             Submit::make()
-                ->label(__('Create')),
+                ->label(__('Create'))
         ];
     }
 }

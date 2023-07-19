@@ -6,12 +6,13 @@ use App\Models\User;
 use App\Tables\Users;
 use Illuminate\Http\Request;
 use App\Forms\CreateUserForm;
-use App\Http\Requests\CreateUserFormRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\QueryBuilder;
+use ProtoneMedia\Splade\Facades\Toast;
 use Spatie\QueryBuilder\AllowedFilter;
+use App\Http\Requests\CreateUserFormRequest;
 
 class UserController extends Controller
 {
@@ -30,8 +31,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create', 
-                ['form' => CreateUserForm::class]);
+        return view(
+            'admin.users.create',
+            ['form' => CreateUserForm::class]
+        );
     }
 
     /**
@@ -39,11 +42,13 @@ class UserController extends Controller
      */
     public function store(CreateUserForm $form, CreateUserFormRequest $request)
     {
-        
         $createUser = $form->validate($request);
-        
-
-        
+        User::create($createUser);
+        Toast::message('User Created')
+            ->success()
+            ->rightTop()
+            ->autoDismiss(3);
+        return redirect()->route('admin.users');
     }
 
     /**
