@@ -34,7 +34,7 @@
 
         @cell('action', $user)
         <div class="space-x-2">
-            <Link href="{{route('admin.users.edit', $user)}}"
+            <Link href="{{ route('admin.users.edit', $user) }}"
                 class="px-4 py-2 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200">
             Edit</Link>
             <Link href="{{route('admin.users.delete', $user)}}"

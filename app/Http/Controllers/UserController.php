@@ -62,10 +62,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request)
-    {
-        $userId = $request->id;
-        return view('admin.users.edit', compact('user'));
+    public function edit(User $user)
+    {   
+        $userRole = User::select('role')->where('id', $user->id)->get();
+        return view('admin.users.edit', compact('user', 'userRole'));
     }
 
     /**
