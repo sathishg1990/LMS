@@ -6,8 +6,9 @@ use App\Models\User;
 use App\Tables\Users;
 use Illuminate\Http\Request;
 use App\Forms\CreateUserForm;
+use App\Rules\CheckRoleForUser;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\QueryBuilder;
 use ProtoneMedia\Splade\Facades\Toast;
@@ -63,25 +64,41 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(User $user)
-    {   
-        $userRole = User::select('role')->where('id', $user->id)->get();
-        return view('admin.users.edit', compact('user', 'userRole'));
+    {
+        $roles = User::select('role')->groupBy('role')->get()->toArray();
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(User $user, Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => ['required', Rule::unique('users')->ignore($user->id)],
+            'password' => 'required',
+            'role' => [
+                'required',
+                new CheckRoleForUser
+            ]
+        ]);
+
+        $user->update($validatedData);
+        Toast::message('User Updated')
+            ->success()
+            ->rightTop()
+            ->autoDismiss(3);
+        return redirect()->route('admin.users');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
     }
 
     public function showstudentslist()
