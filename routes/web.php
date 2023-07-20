@@ -58,7 +58,7 @@ Route::middleware('splade')->group(function () {
             Route::post('/admin/store', [UserController::class, 'store'])->name('admin.users.store');
             Route::get('/admin/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
             Route::put('/admin/update/{user}', [UserController::class, 'update'])->name('admin.users.update');
-            Route::get('/admin/delete', [UserController::class, 'destroy'])->name('admin.users.delete');
+            Route::delete('/admin/delete/{user}', [UserController::class, 'destroy'])->name('admin.users.delete');
             Route::get('/admin/students', [UserController::class, 'showstudentslist'])->name('admin.students');
             Route::get('/admin/teachers', [UserController::class, 'showTeacherlist'])->name('admin.teachers');
         });

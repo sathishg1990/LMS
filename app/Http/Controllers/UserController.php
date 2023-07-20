@@ -74,6 +74,7 @@ class UserController extends Controller
      */
     public function update(User $user, Request $request)
     {
+        
         $validatedData = $request->validate([
             'name' => 'required',
             'email' => ['required', Rule::unique('users')->ignore($user->id)],
@@ -98,6 +99,11 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+        Toast::message('User Deleted')
+            ->success()
+            ->rightTop()
+            ->autoDismiss(3);
+        return redirect()->route('admin.users');
 
     }
 
@@ -126,6 +132,7 @@ class UserController extends Controller
 
         return view('admin.users.students', [
             'students' => SpladeTable::for($students)
+                ->withGlobalSearch('Search through the data...', ['id', 'name'])
                 ->column('name')
                 ->column('email')
                 ->column(key: 'grades.name', label: 'Grade')
@@ -135,6 +142,33 @@ class UserController extends Controller
 
     public function showTeacherlist()
     {
+        $teachersList = User::where('role', 'TEACHER');
 
+
+        $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
+            $query->where(function ($query) use ($value) {
+                Collection::wrap($value)->each(function ($value) use ($query) {
+                    $query
+                        ->orWhere('name', 'LIKE', "%{$value}%")
+                        ->orWhere('email', 'LIKE', "%{$value}%");
+                });
+            });
+        });
+
+
+        $teachers = QueryBuilder::for($teachersList)
+            ->defaultSort('name')
+            ->allowedSorts(['name', 'email'])
+            ->allowedFilters(['name', 'email', $globalSearch]);
+
+
+        return view('admin.users.teachers', [
+            'teachers' => SpladeTable::for($teachers)
+                ->withGlobalSearch('Search through the data...', ['id', 'name'])
+                ->column('name')
+                ->column('email')
+                ->column(key: 'grades.name', label: 'Grade')
+                ->paginate(15),
+        ]);
     }
 }

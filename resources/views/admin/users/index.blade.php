@@ -38,13 +38,10 @@
                 class="px-4 py-2 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200">
             Edit</Link>
             <Link href="{{route('admin.users.delete', $user)}}" method="delete" confirm="Delete the user"
-                confirm-text="Are you sure?" confirm-button="Yes" cancel-button="No"
+                confirm-text="Are you sure to delete this User?" confirm-button="Yes" cancel-button="No"
                 class="px-4 py-2 text-red-100 no-underline bg-red-500 rounded hover:bg-red-600 hover:underline hover:text-red-200">
             Delete
             </Link>
-
-
-
         </div>
         @endcell
 

@@ -90,7 +90,7 @@
             <div class="flex-grow flex flex-col ml-4">
                 <span class="text-xl font-bold">140</span>
                 <div class="flex items-center justify-between">
-                    <span class="text-gray-500">Department</span>
+                    <span class="text-gray-500">Quiz</span>
                     <Link href="/departments" class="text-gray-500 text-sm ml-2">View</Link>
                 </div>
             </div>
