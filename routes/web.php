@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleRegistrationController;
 
@@ -61,6 +62,7 @@ Route::middleware('splade')->group(function () {
             Route::delete('/admin/delete/{user}', [UserController::class, 'destroy'])->name('admin.users.delete');
             Route::get('/admin/students', [UserController::class, 'showstudentslist'])->name('admin.students');
             Route::get('/admin/teachers', [UserController::class, 'showTeacherlist'])->name('admin.teachers');
+            Route::get('/admin/grades', [GradeController::class, 'index'])->name('admin.grades');
         });
 
 

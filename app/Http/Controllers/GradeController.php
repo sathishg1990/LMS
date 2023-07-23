@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tables\Grades;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -11,7 +12,9 @@ class GradeController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.grades.index', [
+            'grades' => Grades::class
+        ]);
     }
 
     /**
